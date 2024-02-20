@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimentação do Jogador</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Definindo a posição inicial do jogador em relação ao centro do canvas
+        let playerX = 0;
+        let playerY = 0;
+        const playerWidth = 20;
+        const playerHeight = 20;
+
+        // Função para desenhar o jogador
+        function drawPlayer() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(playerX, playerY, playerWidth, playerHeight);
+        }
+
+        // Função para atualizar a posição do jogador
+        function updatePlayerPosition() {
+            ctx.save(); // Salva o estado atual do contexto de desenho
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Move o contexto para a posição do jogador
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+
+            // Desenha o jogador
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(playerX, playerY, playerWidth, playerHeight);
+
+            ctx.restore(); // Restaura o estado do contexto de desenho
+            window.requestAnimationFrame(updatePlayerPosition);
+        }
+
+        updatePlayerPosition();
+
+        // Event listener para detectar teclas pressionadas
+        window.addEventListener('keydown', (event) => {
+            let speed =  1;
+            switch (event.key) {
+                case 'ArrowUp':
+                    playerY -= speed * Math.PI ;
+                    break;
+                case 'ArrowDown':
+                    playerY += speed * Math.PI ;
+                    break;
+                case 'ArrowLeft':
+                    playerX -= speed * Math.PI ;
+                    break;
+                case 'ArrowRight':
+                    playerX += speed * Math.PI ;
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>
